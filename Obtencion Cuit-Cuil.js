@@ -48,12 +48,11 @@ function validarNumero(numero) {
 function validarGenero(genero) {
   // Convierto el género a minúsculas y elimino espacios en blanco
   genero = genero.toLowerCase().trim();
-
   // Verifico si el género es válido
-  if (genero === "hombre") {
+  if (genero === "h") {
     return 20;
   }
-  if (genero === "mujer") {
+  if (genero === "m") {
     return 27
   }
 
@@ -65,12 +64,12 @@ function validarGenero(genero) {
 async function pedirGenero() {
   let genero;
   while (true) {
-    genero = await questionAsync("Ingresa tu género (hombre/mujer): ");
+    genero = await questionAsync("Ingresa tu género (H: hombre/ M: mujer): ");
     const tipo = validarGenero(genero);
     if (tipo) {
       return tipo;
     } else {
-      console.log("El género ingresado no es válido. Por favor, ingresa 'hombre' o 'mujer'.");
+      console.log("El género ingresado no es válido. Por favor, ingresa 'H' para hombre o 'M' para mujer.");
     }
   }
 }
@@ -97,12 +96,19 @@ async function obtenerCuit(cuit) {
   for (var i = 0, o = 5; i < 4; i++, o--) {
     digito = digito + cuit[i] * o;
   };
+
   for (var i = 4, o = 7; i < 10; i++, o--) {
     digito = digito + cuit[i] * o;
   };
 
   z = Math.round(digito / 11);
-  return (11 - (digito - (11 * z)))
+  z = digito - (11 * z)
+  if (z <= 9 && z > 0) {
+    return (11 - z)
+  }
+  else {
+    return Math.abs(z)
+  }
 }
 
 async function ejecutarPrograma() {
